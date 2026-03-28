@@ -1,0 +1,40 @@
+{
+  "run_id": "2ff67a69-533e-4ab1-a737-f04f2cfc81ca",
+  "timestamp": "2026-03-28T17:20:12.736601Z",
+  "source_metadata": {},
+  "artifact_sha256": "3714a0741a8eae4fe3c299acf6e0ba2114b4dc2014010bc6789b9e7fcc238a80",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "algorithmic",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "semantic",
+      "status": "FAIL",
+      "findings": [
+        {
+          "file": "semantic",
+          "threat_type": "endpoint_offline",
+          "severity": "high",
+          "line_number": null,
+          "evidence": "LLM endpoint is unresponsive or down."
+        }
+      ],
+      "anomalies": [],
+      "metadata": {}
+    }
+  ],
+  "final_decision": "REJECTED",
+  "deployment_path": null,
+  "rejection_reason": "Semantic scan detected threats."
+}

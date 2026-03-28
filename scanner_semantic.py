@@ -3,6 +3,7 @@ import yaml
 import re
 import json
 import logging
+import requests
 from typing import List, Optional, Dict, Any, Tuple
 from pydantic import BaseModel, Field
 from openai import OpenAI
@@ -48,9 +49,18 @@ def precheck_text(content: str) -> List[Finding]:
             findings.append(Finding(file="SKILL.md", threat_type="override_phrase_detected", severity="medium", evidence=f"Match: {pattern}"))
     return findings
 
-# Optimized retry settings to prevent long hangs in production
+def check_llm_health() -> bool:
+    """Fast probe of the LLM endpoint."""
+    try:
+        # Probe the models endpoint with a short 5s timeout
+        response = requests.get(f"{config.llm_endpoint}/models", timeout=5)
+        return response.status_code == 200
+    except Exception as e:
+        logger.warning(f"LLM health check failed: {e}")
+        return False
+
 @retry(
-    stop=stop_after_attempt(1), # Single attempt for speed in slow local environments
+    stop=stop_after_attempt(1), 
     wait=wait_exponential(multiplier=1, min=1, max=2),
     reraise=True
 )
@@ -67,7 +77,6 @@ def call_llm_with_retry(client, metadata, body):
     )
     user_content = f"METADATA: {json.dumps(metadata) if metadata else 'None'}\n\nBODY:\n{body}"
     
-    # Reduced timeout for individual calls to prevent overall pipeline hang
     timeout = min(config.semantic_timeout, 30) 
     
     return client.chat.completions.create(
@@ -81,11 +90,18 @@ def call_llm_with_retry(client, metadata, body):
     )
 
 def run_semantic_scan(quarantine_path: str) -> PhaseResult:
-    # Fail-closed if endpoint is missing in production
     if config.production and not config.llm_endpoint:
         return PhaseResult(phase="semantic", status="FAIL", findings=[Finding(file="semantic", threat_type="config_error", severity="high", evidence="LLM endpoint not configured in production.")])
 
-    client = instructor.patch(OpenAI(base_url=config.llm_endpoint, api_key="local-token"))
+    # Health check before attempting the call
+    if not check_llm_health():
+        return PhaseResult(phase="semantic", status="FAIL", findings=[Finding(file="semantic", threat_type="endpoint_offline", severity="high", evidence="LLM endpoint is unresponsive or down.")])
+
+    client = instructor.patch(OpenAI(
+        base_url=config.llm_endpoint, 
+        api_key="local-token",
+        timeout=35.0 # Set base client timeout slightly higher than call timeout
+    ))
     all_findings = []
     
     skill_md_path = os.path.join(quarantine_path, "SKILL.md")

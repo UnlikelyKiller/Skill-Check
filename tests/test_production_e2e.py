@@ -27,11 +27,12 @@ def create_benign_zip(path):
         zf.writestr("SKILL.md", "---\nname: TestSkill\nversion: 1.0\n---\n# Helper\nDoes basic addition.")
         zf.writestr("main.py", "print(1+1)")
 
-@pytest.mark.timeout(300) # Allow time for real LLM and Docker
+@pytest.mark.timeout(300)
 def test_production_e2e_benign(production_env):
     """
     Verifies the actual production flow with real tools.
     Requires: docker, bandit, semgrep, and local LLM endpoint.
+    Must assert APPROVED for benign input.
     """
     zip_path = "e2e_benign.zip"
     create_benign_zip(zip_path)
@@ -39,32 +40,36 @@ def test_production_e2e_benign(production_env):
     try:
         report = run_pipeline(zip_path)
         
-        # In this environment, we expect it to PASS if everything is set up.
-        # If it REJECTS, we check why (e.g. LLM down).
         print(f"Final Decision: {report.final_decision}")
         if report.final_decision == "REJECTED":
             print(f"Rejection Reason: {report.rejection_reason}")
             
+        # PROOF MANDATE: Must be APPROVED for benign input
+        assert report.final_decision == "APPROVED", f"Benign pipeline rejected: {report.rejection_reason}"
+        
         assert isinstance(report, ForensicReport)
         assert report.run_id is not None
-        assert len(report.phase_results) > 0
+        assert len(report.phase_results) == 4 # acq, alg, sem, sand
         
-        # Verify Sandbox Telemetry in the report
+        # Verify Sandbox Telemetry Contract
         sandbox_res = next((r for r in report.phase_results if r.phase == "sandbox"), None)
-        if sandbox_res:
-            assert "telemetry" in sandbox_res.metadata
-            assert len(sandbox_res.metadata["telemetry"]) > 0
-            assert "stdout" in sandbox_res.metadata["telemetry"][0]
+        assert sandbox_res is not None
+        assert "telemetry" in sandbox_res.metadata
+        tel = sandbox_res.metadata["telemetry"][0]
+        assert "stdout" in tel
+        assert "stderr" in tel
+        assert "exit_code" in tel
+        assert "process_spawn_count" in tel
 
     finally:
         if os.path.exists(zip_path):
             os.remove(zip_path)
 
-def test_sandbox_telemetry_contract():
+def test_sandbox_telemetry_contract_direct():
     """Directly verifies the sandbox metadata matches the plan."""
     from sandbox_runner import run_sandbox_scan
     
-    test_dir = "test_telemetry_quarantine"
+    test_dir = "test_telemetry_quarantine_direct"
     os.makedirs(test_dir, exist_ok=True)
     with open(os.path.join(test_dir, "main.py"), "w") as f:
         f.write("print('hello')\n")
@@ -78,5 +83,7 @@ def test_sandbox_telemetry_contract():
         assert "stderr" in tel
         assert "exit_code" in tel
         assert "process_spawn_count" in tel
+        assert tel["exit_code"] == 0
     finally:
-        shutil.rmtree(test_dir)
+        if os.path.exists(test_dir):
+            shutil.rmtree(test_dir)

@@ -1,0 +1,40 @@
+{
+  "run_id": "fd590e89-ef31-4da3-8d21-eca80c64da33",
+  "timestamp": "2026-03-28T17:21:13.173775Z",
+  "source_metadata": {},
+  "artifact_sha256": "0a80debc41cde02eb8df88981f194decc1905e0e8b6329493a42b7ebd8a6303e",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "algorithmic",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "semantic",
+      "status": "FAIL",
+      "findings": [
+        {
+          "file": "semantic",
+          "threat_type": "endpoint_offline",
+          "severity": "high",
+          "line_number": null,
+          "evidence": "LLM endpoint is unresponsive or down."
+        }
+      ],
+      "anomalies": [],
+      "metadata": {}
+    }
+  ],
+  "final_decision": "REJECTED",
+  "deployment_path": null,
+  "rejection_reason": "Semantic scan failed: LLM endpoint is unresponsive or down."
+}

@@ -1,0 +1,40 @@
+{
+  "run_id": "d03b0b53-4b27-4fe5-bc30-c8250a25e163",
+  "timestamp": "2026-03-28T17:16:49.994059Z",
+  "source_metadata": {},
+  "artifact_sha256": "43c9441c8d8fc44a84b86e5fcba70fbf6580023b043fbcbf57626d39c696e2be",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "algorithmic",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "semantic",
+      "status": "FAIL",
+      "findings": [
+        {
+          "file": "semantic",
+          "threat_type": "llm_timeout_or_error",
+          "severity": "high",
+          "line_number": null,
+          "evidence": "<failed_attempts>\n\n<generation number=\"1\">\n<exception>\n    Request timed out.\n</exception>\n<completion>\n    None\n</completion>\n</generation>\n\n</failed_attempts>\n\n<last_exception>\n    Request timed out.\n</last_exception>"
+        }
+      ],
+      "anomalies": [],
+      "metadata": {}
+    }
+  ],
+  "final_decision": "REJECTED",
+  "deployment_path": null,
+  "rejection_reason": "Semantic scan detected threats."
+}

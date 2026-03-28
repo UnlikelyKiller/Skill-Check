@@ -33,28 +33,28 @@ def run_pipeline(source_path: str, source_metadata: Optional[Dict[str, Any]] = N
         phase_results.append(acq_result)
         artifact_sha256 = acq_result.artifact_sha256
         if acq_result.status == "FAIL":
-            rejection_reason = f"Acquisition failed: {acq_result.findings[0].threat_type if acq_result.findings else 'Unknown'}"
+            rejection_reason = f"Acquisition failed: {acq_result.findings[0].evidence if acq_result.findings else 'Unknown'}"
             raise CircuitBreakerError("Acquisition")
 
         # 2. Algorithmic Scan
         alg_result = run_algorithmic_scan(acq_result.quarantine_path)
         phase_results.append(alg_result)
         if alg_result.status == "FAIL":
-            rejection_reason = "Algorithmic scan detected threats or failed policy."
+            rejection_reason = f"Algorithmic scan failed: {alg_result.findings[0].evidence if alg_result.findings else 'Threats detected'}"
             raise CircuitBreakerError("Algorithmic")
 
         # 3. Semantic Scan
         sem_result = run_semantic_scan(acq_result.quarantine_path)
         phase_results.append(sem_result)
         if sem_result.status == "FAIL":
-            rejection_reason = "Semantic scan detected threats."
+            rejection_reason = f"Semantic scan failed: {sem_result.findings[0].evidence if sem_result.findings else 'Threats detected'}"
             raise CircuitBreakerError("Semantic")
 
         # 4. Sandbox Scan
         sandbox_result = run_sandbox_scan(acq_result.quarantine_path)
         phase_results.append(sandbox_result)
         if sandbox_result.status == "FAIL":
-            rejection_reason = "Sandbox scan detected anomalies."
+            rejection_reason = f"Sandbox scan failed: {sandbox_result.anomalies[0].description if sandbox_result.anomalies else 'Anomalies detected'}"
             raise CircuitBreakerError("Sandbox")
 
         # 5. Deployment
