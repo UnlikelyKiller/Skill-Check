@@ -25,7 +25,7 @@ class PhaseResult(BaseModel):
 class AcquisitionResult(PhaseResult):
     phase: str = "acquisition"
     artifact_sha256: str
-    archive_type: str
+    archive_type: str  # zip, tar.gz, directory
     quarantine_path: str
 
 class ForensicReport(BaseModel):
@@ -34,6 +34,13 @@ class ForensicReport(BaseModel):
     source_metadata: Dict[str, Any] = Field(default_factory=dict)
     artifact_sha256: str
     phase_results: List[PhaseResult] = Field(default_factory=list)
-    final_decision: str  # PASS, FAIL
+    final_decision: str  # APPROVED, REJECTED
     deployment_path: Optional[str] = None
     rejection_reason: Optional[str] = None
+
+class ApprovalManifest(BaseModel):
+    artifact_hash: str
+    approval_timestamp: datetime = Field(default_factory=datetime.utcnow)
+    forensic_report_path: str
+    run_id: str
+    status: str = "APPROVED"

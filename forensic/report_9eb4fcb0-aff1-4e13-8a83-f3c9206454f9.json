@@ -1,0 +1,47 @@
+{
+  "run_id": "9eb4fcb0-aff1-4e13-8a83-f3c9206454f9",
+  "timestamp": "2026-03-28T14:50:38.847812",
+  "source_metadata": {},
+  "artifact_sha256": "ba7c81de14a13c48ae0cef1bec5c8e191f2618f0822e7f559c200dfe42ffc9c2",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "algorithmic",
+      "status": "FAIL",
+      "findings": [
+        {
+          "file": "test_quarantine\\9eb4fcb0-aff1-4e13-8a83-f3c9206454f9\\main.py",
+          "threat_type": "eval_detected",
+          "severity": "high",
+          "line_number": 1,
+          "evidence": "Call to eval()"
+        },
+        {
+          "file": "test_quarantine\\9eb4fcb0-aff1-4e13-8a83-f3c9206454f9",
+          "threat_type": "bandit_execution_error",
+          "severity": "medium",
+          "line_number": null,
+          "evidence": "[WinError 2] The system cannot find the file specified"
+        },
+        {
+          "file": "test_quarantine\\9eb4fcb0-aff1-4e13-8a83-f3c9206454f9",
+          "threat_type": "semgrep_execution_error",
+          "severity": "medium",
+          "line_number": null,
+          "evidence": "[WinError 2] The system cannot find the file specified"
+        }
+      ],
+      "anomalies": [],
+      "metadata": {}
+    }
+  ],
+  "final_decision": "REJECTED",
+  "deployment_path": null,
+  "rejection_reason": "Algorithmic scanner detected high-severity threats."
+}

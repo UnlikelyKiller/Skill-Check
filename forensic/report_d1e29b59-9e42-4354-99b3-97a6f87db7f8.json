@@ -1,0 +1,33 @@
+{
+  "run_id": "d1e29b59-9e42-4354-99b3-97a6f87db7f8",
+  "timestamp": "2026-03-28T14:57:49.030733",
+  "source_metadata": {},
+  "artifact_sha256": "1fd6fbcaa6327f87310242b6754912e7cd1bbd3c5b8d174fcff65312c5538949",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "algorithmic",
+      "status": "FAIL",
+      "findings": [
+        {
+          "file": "main.py",
+          "threat_type": "eval_detected",
+          "severity": "high",
+          "line_number": 1,
+          "evidence": "Call to eval()"
+        }
+      ],
+      "anomalies": [],
+      "metadata": {}
+    }
+  ],
+  "final_decision": "REJECTED",
+  "deployment_path": null,
+  "rejection_reason": "Algorithmic scan detected threats or failed policy."
+}

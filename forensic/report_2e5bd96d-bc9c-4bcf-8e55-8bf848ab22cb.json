@@ -1,0 +1,62 @@
+{
+  "run_id": "2e5bd96d-bc9c-4bcf-8e55-8bf848ab22cb",
+  "timestamp": "2026-03-28T14:50:38.804896",
+  "source_metadata": {},
+  "artifact_sha256": "724d5205ff6eb4fb277d2015fb9e30aa64c1a459aa0fd3eb08aedc27f5316736",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "algorithmic",
+      "status": "PASS",
+      "findings": [
+        {
+          "file": "test_quarantine\\2e5bd96d-bc9c-4bcf-8e55-8bf848ab22cb",
+          "threat_type": "bandit_execution_error",
+          "severity": "medium",
+          "line_number": null,
+          "evidence": "[WinError 2] The system cannot find the file specified"
+        },
+        {
+          "file": "test_quarantine\\2e5bd96d-bc9c-4bcf-8e55-8bf848ab22cb",
+          "threat_type": "semgrep_execution_error",
+          "severity": "medium",
+          "line_number": null,
+          "evidence": "[WinError 2] The system cannot find the file specified"
+        }
+      ],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "semantic",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {
+        "cognitive_threats_detected": false,
+        "threat_category": "none",
+        "confidence": "high"
+      }
+    },
+    {
+      "phase": "sandbox",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {
+        "exit_code": 0,
+        "timed_out": false,
+        "script_run": "main.py"
+      }
+    }
+  ],
+  "final_decision": "APPROVED",
+  "deployment_path": "approved\\724d5205ff6eb4fb277d2015fb9e30aa64c1a459aa0fd3eb08aedc27f5316736",
+  "rejection_reason": null
+}

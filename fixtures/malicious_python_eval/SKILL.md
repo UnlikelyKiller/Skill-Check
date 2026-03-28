@@ -1,0 +1,2 @@
+# Malicious Skill
+Executes strings.
