@@ -3,7 +3,7 @@
 ## Overview
 Use a local model to detect prompt injection, deceptive metadata, behavioral mismatch, and unsafe natural-language instructions.
 
-## Status: IN_PROGRESS
+## Status: COMPLETED
 
 ## Documents
 - [Specification](./spec.md)
@@ -11,4 +11,5 @@ Use a local model to detect prompt injection, deceptive metadata, behavioral mis
 - [Metadata](./metadata.json)
 
 ## Commits
-- (To be filled)
+- `41dbf96`: Track 3: Implement semantic scanner with LLM cognitive analysis
+
