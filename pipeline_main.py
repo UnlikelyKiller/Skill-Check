@@ -1,7 +1,7 @@
 import os
 import uuid
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, Dict, Any
 from config import config
 from models import ForensicReport, PhaseResult, AcquisitionResult, ApprovalManifest
@@ -78,7 +78,7 @@ def run_pipeline(source_path: str, source_metadata: Optional[Dict[str, Any]] = N
     # 6. Forensic Report
     report = ForensicReport(
         run_id=run_id,
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(timezone.utc),
         source_metadata=source_metadata or {},
         artifact_sha256=artifact_sha256,
         phase_results=phase_results,

@@ -8,3 +8,8 @@
 {"timestamp": "2026-03-28T14:58:37.537581", "level": "INFO", "message": "Starting pipeline run: 420cd3fa-e25d-4a74-a04f-b5d1af3d9c7c for source: malicious_alg.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
 {"timestamp": "2026-03-28T14:58:37.570254", "level": "ERROR", "message": "Pipeline error: Algorithmic", "module": "pipeline_main", "funcName": "run_pipeline"}
 {"timestamp": "2026-03-28T14:58:37.572355", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T15:02:35.550241+00:00", "level": "INFO", "message": "Starting pipeline run: f35b04a9-818e-4956-a208-6ce68fef9235 for source: benign_pipeline.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T15:02:35.592834+00:00", "level": "INFO", "message": "Pipeline finished: APPROVED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T15:02:35.599066+00:00", "level": "INFO", "message": "Starting pipeline run: 3de81a76-6af6-4818-a606-361b7f8a91bd for source: malicious_alg.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T15:02:35.635161+00:00", "level": "ERROR", "message": "Pipeline error: Algorithmic", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T15:02:35.637320+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}

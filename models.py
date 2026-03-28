@@ -1,6 +1,6 @@
 from typing import List, Optional, Union, Dict, Any
 from pydantic import BaseModel, Field
-from datetime import datetime
+from datetime import datetime, timezone
 
 class Finding(BaseModel):
     file: str
@@ -30,7 +30,7 @@ class AcquisitionResult(PhaseResult):
 
 class ForensicReport(BaseModel):
     run_id: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     source_metadata: Dict[str, Any] = Field(default_factory=dict)
     artifact_sha256: str
     phase_results: List[PhaseResult] = Field(default_factory=list)
@@ -40,7 +40,7 @@ class ForensicReport(BaseModel):
 
 class ApprovalManifest(BaseModel):
     artifact_hash: str
-    approval_timestamp: datetime = Field(default_factory=datetime.utcnow)
+    approval_timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     forensic_report_path: str
     run_id: str
     status: str = "APPROVED"

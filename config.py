@@ -1,9 +1,10 @@
 import os
-from pydantic import Field, validator
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
 
 class PipelineConfig(BaseSettings):
+    model_config = SettingsConfigDict(env_prefix="SKILLCHECK_")
+    
     # Mode
     production: bool = False
     
@@ -35,9 +36,6 @@ class PipelineConfig(BaseSettings):
     algorithmic_timeout: int = 60
     semantic_timeout: int = 90
     sandbox_timeout: int = 120
-    
-    class Config:
-        env_prefix = "SKILLCHECK_"
 
 # Global config instance
 config = PipelineConfig()
