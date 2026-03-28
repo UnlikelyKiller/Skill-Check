@@ -1,0 +1,40 @@
+{
+  "run_id": "bbafb309-1f2b-498a-82ec-435557528ed7",
+  "timestamp": "2026-03-28T16:54:39.500999Z",
+  "source_metadata": {},
+  "artifact_sha256": "210b84c9753c2c34d62f74d861278d130808db5bab96f767971debe78670fe99",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "algorithmic",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "semantic",
+      "status": "FAIL",
+      "findings": [
+        {
+          "file": "semantic",
+          "threat_type": "error",
+          "severity": "high",
+          "line_number": null,
+          "evidence": "RetryError[<Future at 0x1f4b13b1910 state=finished raised InstructorRetryException>]"
+        }
+      ],
+      "anomalies": [],
+      "metadata": {}
+    }
+  ],
+  "final_decision": "REJECTED",
+  "deployment_path": null,
+  "rejection_reason": "Semantic scan detected threats."
+}

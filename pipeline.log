@@ -49,3 +49,18 @@
 {"timestamp": "2026-03-28T16:31:56.977327+00:00", "level": "INFO", "message": "Starting pipeline run: 06d610ab-ecd8-41c3-8634-9ce759490955 for source: malicious_alg.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
 {"timestamp": "2026-03-28T16:32:00.028781+00:00", "level": "ERROR", "message": "Pipeline error: Algorithmic", "module": "pipeline_main", "funcName": "run_pipeline"}
 {"timestamp": "2026-03-28T16:32:00.030746+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:38:25.436861+00:00", "level": "INFO", "message": "Starting pipeline run: a87ecc3a-dfde-4803-b9d0-08224eb5d4cf for source: C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpzfj948h9.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:38:41.521948+00:00", "level": "INFO", "message": "Starting pipeline run: 87bdbfee-5cb5-46ae-ab24-992718fc77d5 for source: benign_pipeline.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:38:44.480668+00:00", "level": "INFO", "message": "Pipeline finished: APPROVED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:38:44.485752+00:00", "level": "INFO", "message": "Starting pipeline run: 1f50111f-5177-44d3-bbd9-fae1df365c78 for source: malicious_alg.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:38:47.838438+00:00", "level": "ERROR", "message": "Pipeline error: Algorithmic", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:38:47.840425+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:40:39.204838+00:00", "level": "INFO", "message": "Starting pipeline run: bbafb309-1f2b-498a-82ec-435557528ed7 for source: C:\\Users\\Admin\\AppData\\Local\\Temp\\tmps4lecjlw.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:52:25.428440+00:00", "level": "ERROR", "message": "Pipeline error: Semantic", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:52:25.453460+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:53:00.927117+00:00", "level": "INFO", "message": "Starting pipeline run: b508aa4f-f9be-4060-b7e3-ef496524f1aa for source: e2e_benign.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:54:39.500920+00:00", "level": "ERROR", "message": "Pipeline error: Semantic", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:54:39.503963+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:57:50.525145+00:00", "level": "ERROR", "message": "Semantic LLM call failed after retries: <failed_attempts>\n\n<generation number=\"1\">\n<exception>\n    Request timed out.\n</exception>\n<completion>\n    None\n</completion>\n</generation>\n\n</failed_attempts>\n\n<last_exception>\n    Request timed out.\n</last_exception>", "module": "scanner_semantic", "funcName": "run_semantic_scan"}
+{"timestamp": "2026-03-28T16:57:50.526877+00:00", "level": "ERROR", "message": "Pipeline error: Semantic", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:57:50.529457+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}

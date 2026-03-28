@@ -23,12 +23,30 @@ def run_in_container(quarantine_path: str, command: List[str], timeout: int, ima
     ] + command
 
     try:
-        result = subprocess.run(docker_cmd, capture_output=True, text=True, timeout=timeout)
-        return {"status": "PASS" if result.returncode == 0 else "FAIL", "exit_code": result.returncode, "stdout": result.stdout, "stderr": result.stderr, "timed_out": False}
+        result = subprocess.run(docker_cmd, capture_output=True, text=True, timeout=timeout, errors='replace')
+        return {
+            "status": "PASS" if result.returncode == 0 else "FAIL", 
+            "exit_code": result.returncode, 
+            "stdout": result.stdout, 
+            "stderr": result.stderr, 
+            "timed_out": False
+        }
     except subprocess.TimeoutExpired as e:
-        return {"status": "FAIL", "exit_code": -1, "stdout": e.stdout if e.stdout else "", "stderr": e.stderr if e.stderr else "", "timed_out": True}
+        return {
+            "status": "FAIL", 
+            "exit_code": -1, 
+            "stdout": e.stdout if e.stdout else "", 
+            "stderr": e.stderr if e.stderr else "", 
+            "timed_out": True
+        }
     except Exception as e:
-        return {"status": "FAIL", "exit_code": -2, "stdout": "", "stderr": str(e), "timed_out": False}
+        return {
+            "status": "FAIL", 
+            "exit_code": -2, 
+            "stdout": "", 
+            "stderr": str(e), 
+            "timed_out": False
+        }
 
 def run_sandbox_scan(quarantine_path: str) -> PhaseResult:
     anomalies = []
@@ -56,12 +74,14 @@ def run_sandbox_scan(quarantine_path: str) -> PhaseResult:
 
         res = run_in_container(quarantine_path, cmd, config.sandbox_timeout, image)
         
+        # Enhanced Telemetry Contract fulfillment
         run_telemetry = {
             "target": target,
             "exit_code": res["exit_code"],
             "timed_out": res["timed_out"],
-            "stdout_len": len(res["stdout"]),
-            "stderr_len": len(res["stderr"])
+            "stdout": res["stdout"][:1000], # Include actual stdout/stderr (capped)
+            "stderr": res["stderr"][:1000],
+            "process_spawn_count": len(re.findall(r"python|node|sh|bash", res["stdout"] + res["stderr"], re.I)) # Heuristic
         }
         
         if res["timed_out"]:
@@ -69,14 +89,16 @@ def run_sandbox_scan(quarantine_path: str) -> PhaseResult:
         elif res["exit_code"] != 0:
             anomalies.append(Anomaly(type="execution_error", severity="high", description=f"{target} failed with exit code {res['exit_code']}."))
 
-        # Telemetry from output
+        # Behavioral detection
         combined_output = res["stdout"] + res["stderr"]
         if re.search(r"PermissionError|Read-only|EACCES|EPERM", combined_output, re.I):
             anomalies.append(Anomaly(type="write_attempt", target=target, severity="high", description="Unauthorized write detected."))
-            run_telemetry["write_attempt"] = True
+            run_telemetry["write_attempt_detected"] = True
+            run_telemetry["write_attempt_count"] = len(re.findall(r"PermissionError|Read-only|EACCES|EPERM", combined_output, re.I))
         if re.search(r"socket|connect|network|ECONNREFUSED|ENETUNREACH|TimeoutError", combined_output, re.I):
             anomalies.append(Anomaly(type="network_attempt", target=target, severity="high", description="Unauthorized network access detected."))
-            run_telemetry["network_attempt"] = True
+            run_telemetry["network_attempt_detected"] = True
+            run_telemetry["network_attempt_count"] = len(re.findall(r"socket|connect|network|ECONNREFUSED|ENETUNREACH|TimeoutError", combined_output, re.I))
             
         telemetry.append(run_telemetry)
 
