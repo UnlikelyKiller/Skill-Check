@@ -1,0 +1,13 @@
+# Ledger files
+.project-ledger/*.db
+.project-ledger/*.db-shm
+.project-ledger/*.db-wal
+
+# Common Windows files
+Thumbs.db
+desktop.ini
+
+# Common Editor files
+.vscode/
+.idea/
+.DS_Store
