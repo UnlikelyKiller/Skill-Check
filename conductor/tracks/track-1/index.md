@@ -3,7 +3,7 @@
 ## Overview
 Safely acquire the artifact, validate it, extract it into a restricted quarantine directory, and establish immutable provenance.
 
-## Status: IN_PROGRESS
+## Status: COMPLETED
 
 ## Documents
 - [Specification](./spec.md)
@@ -11,4 +11,5 @@ Safely acquire the artifact, validate it, extract it into a restricted quarantin
 - [Metadata](./metadata.json)
 
 ## Commits
-- (To be filled)
+- `e0d4493`: Track 1: Implement core models, config, and safe acquisition phase
+
