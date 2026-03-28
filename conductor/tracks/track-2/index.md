@@ -3,7 +3,7 @@
 ## Overview
 Perform broad, deterministic triage across code and text artifacts using AST analysis, pattern checks, and integration with Semgrep and Bandit.
 
-## Status: IN_PROGRESS
+## Status: COMPLETED
 
 ## Documents
 - [Specification](./spec.md)
@@ -11,4 +11,5 @@ Perform broad, deterministic triage across code and text artifacts using AST ana
 - [Metadata](./metadata.json)
 
 ## Commits
-- (To be filled)
+- `b587fb4`: Track 2: Implement algorithmic scanner with AST and pattern-based checks
+
