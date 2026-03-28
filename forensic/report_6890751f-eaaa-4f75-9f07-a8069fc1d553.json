@@ -1,0 +1,55 @@
+{
+  "run_id": "6890751f-eaaa-4f75-9f07-a8069fc1d553",
+  "timestamp": "2026-03-28T16:31:17.541737Z",
+  "source_metadata": {},
+  "artifact_sha256": "3d6b8e95e665ab3c50697a5a63355de16aa9feb02fa5c4a99ccbf8993d71509b",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "algorithmic",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "semantic",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "sandbox",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {
+        "telemetry": [
+          {
+            "target": "main.py",
+            "exit_code": 0,
+            "timed_out": false,
+            "stdout_len": 2,
+            "stderr_len": 0
+          }
+        ],
+        "anomaly_counts": {
+          "timeout": 0,
+          "write_attempt": 0,
+          "network_attempt": 0,
+          "execution_error": 0
+        }
+      }
+    }
+  ],
+  "final_decision": "APPROVED",
+  "deployment_path": "approved\\3d6b8e95e665ab3c50697a5a63355de16aa9feb02fa5c4a99ccbf8993d71509b",
+  "rejection_reason": null
+}

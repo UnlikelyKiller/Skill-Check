@@ -31,3 +31,21 @@
 {"timestamp": "2026-03-28T16:23:42.377673+00:00", "level": "INFO", "message": "Starting pipeline run: 4ff45fce-a93d-4c75-862e-e194c20a8ff9 for source: malicious_alg.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
 {"timestamp": "2026-03-28T16:23:42.417985+00:00", "level": "ERROR", "message": "Pipeline error: Algorithmic", "module": "pipeline_main", "funcName": "run_pipeline"}
 {"timestamp": "2026-03-28T16:23:42.420026+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:26:01.469916+00:00", "level": "INFO", "message": "Starting pipeline run: dcbb53e7-e48b-4a21-abb4-79c0b97da661 for source: benign_pipeline.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:26:01.506253+00:00", "level": "INFO", "message": "Pipeline finished: APPROVED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:26:01.510968+00:00", "level": "INFO", "message": "Starting pipeline run: 9200a68a-b497-4ecc-a031-6026d62578c2 for source: malicious_alg.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:26:01.540600+00:00", "level": "ERROR", "message": "Pipeline error: Algorithmic", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:26:01.542006+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:26:34.194695+00:00", "level": "INFO", "message": "Starting pipeline run: 7283fc6d-5a93-4498-aa93-c8491eeef911 for source: C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpzp8tg4gm.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:26:34.224491+00:00", "level": "ERROR", "message": "Pipeline error: Required tool Bandit is missing in production mode.", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:26:34.226158+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:31:14.722449+00:00", "level": "INFO", "message": "Starting pipeline run: 6890751f-eaaa-4f75-9f07-a8069fc1d553 for source: benign_pipeline.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:31:17.543431+00:00", "level": "INFO", "message": "Pipeline finished: APPROVED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:31:17.549658+00:00", "level": "INFO", "message": "Starting pipeline run: c3a714e3-62fa-4e36-ac6d-0794674fb6fb for source: malicious_alg.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:31:20.544284+00:00", "level": "ERROR", "message": "Pipeline error: Algorithmic", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:31:20.546882+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:31:54.145633+00:00", "level": "INFO", "message": "Starting pipeline run: 1d840a49-ed10-4b2e-b0b9-abdb4d5804ea for source: benign_pipeline.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:31:56.971724+00:00", "level": "INFO", "message": "Pipeline finished: APPROVED", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:31:56.977327+00:00", "level": "INFO", "message": "Starting pipeline run: 06d610ab-ecd8-41c3-8634-9ce759490955 for source: malicious_alg.zip", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:32:00.028781+00:00", "level": "ERROR", "message": "Pipeline error: Algorithmic", "module": "pipeline_main", "funcName": "run_pipeline"}
+{"timestamp": "2026-03-28T16:32:00.030746+00:00", "level": "INFO", "message": "Pipeline finished: REJECTED", "module": "pipeline_main", "funcName": "run_pipeline"}

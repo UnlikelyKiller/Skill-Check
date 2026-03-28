@@ -1,0 +1,30 @@
+rules:
+  - id: python-eval-exec
+    patterns:
+      - pattern-either:
+          - pattern: eval(...)
+          - pattern: exec(...)
+    message: "Use of eval() or exec() detected."
+    severity: ERROR
+    languages: [python]
+
+  - id: python-subprocess-shell-true
+    patterns:
+      - pattern: subprocess.run(..., shell=True, ...)
+    message: "Subprocess call with shell=True detected."
+    severity: ERROR
+    languages: [python]
+
+  - id: js-eval
+    patterns:
+      - pattern: eval(...)
+    message: "Use of eval() in JavaScript detected."
+    severity: ERROR
+    languages: [javascript]
+
+  - id: shell-pipe-bash
+    patterns:
+      - pattern-regex: "curl.*|.*bash"
+    message: "Suspicious shell pipe to bash detected."
+    severity: ERROR
+    languages: [generic]

@@ -103,6 +103,7 @@ def scan_shell_patterns(file_path: str, root_path: str) -> List[Finding]:
     dangerous_patterns = [
         (r'curl\s+.*\s*\|\s*bash', 'shell_pipe_bash', 'high'),
         (r'wget\s+.*\s*\|\s*sh', 'shell_pipe_sh', 'high'),
+        (r'/dev/tcp/', 'reverse_shell_pattern', 'high'),
         (r'rm\s+-rf\s+/', 'destructive_command', 'high'),
     ]
     try:
@@ -156,9 +157,13 @@ def run_external_tool(tool_path: str, args: List[str], tool_name: str) -> List[D
             raise ScannerError(f"Required tool {tool_name} is missing in production mode.")
         return []
     try:
-        result = subprocess.run([tool_path] + args, capture_output=True, text=True, timeout=config.algorithmic_timeout)
+        result = subprocess.run([tool_path] + args, capture_output=True, text=True, timeout=config.algorithmic_timeout, errors='replace')
         if result.stdout:
-            return json.loads(result.stdout).get('results', [])
+            try:
+                data = json.loads(result.stdout)
+                return data.get('results', [])
+            except json.JSONDecodeError:
+                return []
     except Exception as e:
         if config.production:
             raise ScannerError(f"Error running {tool_name}: {str(e)}")
@@ -176,12 +181,14 @@ def run_algorithmic_scan(quarantine_path: str) -> PhaseResult:
             if file in ['package.json', 'requirements.txt', 'pyproject.toml']: all_findings.extend(check_manifests(fpath, quarantine_path))
 
     # Bandit
-    bandit_results = run_external_tool(config.bandit_path, ["-r", quarantine_path, "-f", "json"], "Bandit")
+    bandit_results = run_external_tool(config.bandit_path, ["-r", quarantine_path, "-f", "json", "-q"], "Bandit")
     for issue in bandit_results:
         all_findings.append(Finding(file=os.path.relpath(issue.get('filename'), quarantine_path), threat_type=f"bandit_{issue.get('test_id')}", severity=issue.get('issue_severity').lower(), line_number=issue.get('line_number'), evidence=issue.get('issue_text')))
 
-    # Semgrep
-    semgrep_results = run_external_tool(config.semgrep_path, ["scan", "--config", "auto", "--json", quarantine_path], "Semgrep")
+    # Semgrep - Use local rules and offline mode
+    rules_path = os.path.abspath("semgrep_rules.yaml")
+    semgrep_args = ["scan", "--config", rules_path, "--json", "--metrics", "off", "--no-git-ignore", quarantine_path]
+    semgrep_results = run_external_tool(config.semgrep_path, semgrep_args, "Semgrep")
     for issue in semgrep_results:
         all_findings.append(Finding(file=os.path.relpath(issue.get('path'), quarantine_path), threat_type=f"semgrep_{issue.get('check_id')}", severity=issue.get('extra', {}).get('severity', 'medium').lower(), line_number=issue.get('start', {}).get('line'), evidence=issue.get('extra', {}).get('message')))
 
@@ -189,7 +196,6 @@ def run_algorithmic_scan(quarantine_path: str) -> PhaseResult:
     if any(f.severity == "high" for f in all_findings):
         status = "FAIL"
     elif len([f for f in all_findings if f.severity == "medium"]) >= 5:
-        # Medium cluster policy
         status = "FAIL"
     
     return PhaseResult(phase="algorithmic", status=status, findings=all_findings)

@@ -32,6 +32,7 @@ def run_in_container(quarantine_path: str, command: List[str], timeout: int, ima
 
 def run_sandbox_scan(quarantine_path: str) -> PhaseResult:
     anomalies = []
+    telemetry = []
     entrypoints = []
     for root, _, files in os.walk(quarantine_path):
         for f in files:
@@ -41,7 +42,7 @@ def run_sandbox_scan(quarantine_path: str) -> PhaseResult:
 
     if not entrypoints: return PhaseResult(phase="sandbox", status="PASS", findings=[], anomalies=[])
 
-    # Execute all identified entrypoints (bounded)
+    # Execute identified entrypoints (bounded)
     for target in entrypoints[:10]:
         if target.endswith('.py'):
             cmd = ["python", target]
@@ -55,17 +56,42 @@ def run_sandbox_scan(quarantine_path: str) -> PhaseResult:
 
         res = run_in_container(quarantine_path, cmd, config.sandbox_timeout, image)
         
+        run_telemetry = {
+            "target": target,
+            "exit_code": res["exit_code"],
+            "timed_out": res["timed_out"],
+            "stdout_len": len(res["stdout"]),
+            "stderr_len": len(res["stderr"])
+        }
+        
         if res["timed_out"]:
             anomalies.append(Anomaly(type="timeout", severity="high", description=f"{target} timed out."))
         elif res["exit_code"] != 0:
             anomalies.append(Anomaly(type="execution_error", severity="high", description=f"{target} failed with exit code {res['exit_code']}."))
 
-        # Telemetry from output (Check both stdout and stderr)
+        # Telemetry from output
         combined_output = res["stdout"] + res["stderr"]
         if re.search(r"PermissionError|Read-only|EACCES|EPERM", combined_output, re.I):
             anomalies.append(Anomaly(type="write_attempt", target=target, severity="high", description="Unauthorized write detected."))
+            run_telemetry["write_attempt"] = True
         if re.search(r"socket|connect|network|ECONNREFUSED|ENETUNREACH|TimeoutError", combined_output, re.I):
             anomalies.append(Anomaly(type="network_attempt", target=target, severity="high", description="Unauthorized network access detected."))
+            run_telemetry["network_attempt"] = True
+            
+        telemetry.append(run_telemetry)
 
     status = "FAIL" if any(a.severity == "high" for a in anomalies) else "PASS"
-    return PhaseResult(phase="sandbox", status=status, anomalies=anomalies)
+    return PhaseResult(
+        phase="sandbox", 
+        status=status, 
+        anomalies=anomalies,
+        metadata={
+            "telemetry": telemetry,
+            "anomaly_counts": {
+                "timeout": len([a for a in anomalies if a.type == "timeout"]),
+                "write_attempt": len([a for a in anomalies if a.type == "write_attempt"]),
+                "network_attempt": len([a for a in anomalies if a.type == "network_attempt"]),
+                "execution_error": len([a for a in anomalies if a.type == "execution_error"])
+            }
+        }
+    )

@@ -1,0 +1,47 @@
+{
+  "run_id": "06d610ab-ecd8-41c3-8634-9ce759490955",
+  "timestamp": "2026-03-28T16:32:00.028895Z",
+  "source_metadata": {},
+  "artifact_sha256": "74c54406844e74954c58e8385c4d7ba4aa0f0b00732530a309509ebe65c8106b",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "algorithmic",
+      "status": "FAIL",
+      "findings": [
+        {
+          "file": "main.py",
+          "threat_type": "eval_detected",
+          "severity": "high",
+          "line_number": 1,
+          "evidence": "Call to eval()"
+        },
+        {
+          "file": "main.py",
+          "threat_type": "bandit_B307",
+          "severity": "medium",
+          "line_number": 1,
+          "evidence": "Use of possibly insecure function - consider using safer ast.literal_eval."
+        },
+        {
+          "file": "main.py",
+          "threat_type": "semgrep_python-eval-exec",
+          "severity": "error",
+          "line_number": 1,
+          "evidence": "Use of eval() or exec() detected."
+        }
+      ],
+      "anomalies": [],
+      "metadata": {}
+    }
+  ],
+  "final_decision": "REJECTED",
+  "deployment_path": null,
+  "rejection_reason": "Algorithmic scan detected threats or failed policy."
+}

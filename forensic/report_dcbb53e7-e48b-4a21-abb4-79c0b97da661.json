@@ -1,0 +1,39 @@
+{
+  "run_id": "dcbb53e7-e48b-4a21-abb4-79c0b97da661",
+  "timestamp": "2026-03-28T16:26:01.504969Z",
+  "source_metadata": {},
+  "artifact_sha256": "005de584d87183b3b21facd7a615327b7f5fcdf0178486f3f66331a371f67832",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "algorithmic",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "semantic",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    },
+    {
+      "phase": "sandbox",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    }
+  ],
+  "final_decision": "APPROVED",
+  "deployment_path": "approved\\005de584d87183b3b21facd7a615327b7f5fcdf0178486f3f66331a371f67832",
+  "rejection_reason": null
+}

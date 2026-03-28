@@ -1,0 +1,18 @@
+{
+  "run_id": "7283fc6d-5a93-4498-aa93-c8491eeef911",
+  "timestamp": "2026-03-28T16:26:34.224542Z",
+  "source_metadata": {},
+  "artifact_sha256": "02a38d61ab431e651bee7c1a66727ada5bd235a634966779dc08c0e688b98cc3",
+  "phase_results": [
+    {
+      "phase": "acquisition",
+      "status": "PASS",
+      "findings": [],
+      "anomalies": [],
+      "metadata": {}
+    }
+  ],
+  "final_decision": "REJECTED",
+  "deployment_path": null,
+  "rejection_reason": "Required tool Bandit is missing in production mode."
+}
