@@ -3,7 +3,7 @@
 ## Overview
 Execute a tightly defined synthetic runtime routine inside an isolated Linux container to observe behavioral anomalies.
 
-## Status: IN_PROGRESS
+## Status: COMPLETED
 
 ## Documents
 - [Specification](./spec.md)
@@ -11,4 +11,5 @@ Execute a tightly defined synthetic runtime routine inside an isolated Linux con
 - [Metadata](./metadata.json)
 
 ## Commits
-- (To be filled)
+- `c5bb0d4`: Track 4: Implement sandbox runner with Docker isolation
+
