@@ -2,13 +2,18 @@ import os
 import shutil
 import pytest
 from scanner_algorithmic import run_algorithmic_scan
+from config import config
 
 @pytest.fixture
 def test_quarantine():
+    # Algorithmic tests require config.production = False if tools are missing
+    old_prod = config.production
+    config.production = False
     path = "test_algorithmic_quarantine"
     os.makedirs(path, exist_ok=True)
     yield path
     shutil.rmtree(path)
+    config.production = old_prod
 
 def test_scan_python_threats(test_quarantine):
     py_path = os.path.join(test_quarantine, "dangerous.py")
@@ -67,8 +72,5 @@ def test_benign_file(test_quarantine):
         f.write("print('hello world')\n")
     
     result = run_algorithmic_scan(test_quarantine)
-    
-    # status might be FAIL if bandit/semgrep are not installed or find something in the env
-    # but our manual findings should be empty
     manual_findings = [f for f in result.findings if not f.threat_type.startswith(('bandit_', 'semgrep_'))]
     assert len(manual_findings) == 0

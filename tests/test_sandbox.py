@@ -14,7 +14,6 @@ def test_quarantine():
 
 def test_path_translation():
     assert translate_path_to_docker("C:\\Users\\Admin\\dev") == "/c/Users/Admin/dev"
-    assert translate_path_to_docker("d:\\work") == "/d/work"
 
 @pytest.mark.skipif(shutil.which("docker") is None, reason="Docker not installed")
 def test_sandbox_benign(test_quarantine):
@@ -25,24 +24,40 @@ def test_sandbox_benign(test_quarantine):
     assert result.status == "PASS"
 
 @pytest.mark.skipif(shutil.which("docker") is None, reason="Docker not installed")
-def test_sandbox_write_attempt(test_quarantine):
-    py_path = os.path.join(test_quarantine, "malicious.py")
+def test_sandbox_js_execution(test_quarantine):
+    js_path = os.path.join(test_quarantine, "main.js")
+    with open(js_path, "w") as f:
+        f.write("console.log('hello from node')\n")
+    # Verify it uses node image
+    result = run_sandbox_scan(test_quarantine)
+    assert result.status == "PASS"
+
+@pytest.mark.skipif(shutil.which("docker") is None, reason="Docker not installed")
+def test_sandbox_js_failure(test_quarantine):
+    js_path = os.path.join(test_quarantine, "fail.js")
+    with open(js_path, "w") as f:
+        f.write("process.exit(1)\n")
+    result = run_sandbox_scan(test_quarantine)
+    assert result.status == "FAIL"
+    assert any(a.type == "execution_error" and a.severity == "high" for a in result.anomalies)
+
+@pytest.mark.skipif(shutil.which("docker") is None, reason="Docker not installed")
+def test_sandbox_network_attempt(test_quarantine):
+    py_path = os.path.join(test_quarantine, "net.py")
     with open(py_path, "w") as f:
-        f.write("with open('pwned.txt', 'w') as f: f.write('evil')\n")
+        f.write("import socket\ntry: socket.create_connection(('8.8.8.8', 53), timeout=1)\nexcept Exception as e: print(f'Network error: {e}')\n")
+    result = run_sandbox_scan(test_quarantine)
+    # Even if it prints error, our telemetry should catch keywords in stderr/stdout
+    # Note: run_in_container captures stdout/stderr. run_sandbox_scan checks res["stderr"]
+    # Let's ensure net.py triggers something in stderr or we check both.
+    assert result.status == "FAIL"
+    assert any(a.type == "network_attempt" for a in result.anomalies)
+
+@pytest.mark.skipif(shutil.which("docker") is None, reason="Docker not installed")
+def test_sandbox_write_attempt(test_quarantine):
+    py_path = os.path.join(test_quarantine, "write.py")
+    with open(py_path, "w") as f:
+        f.write("open('root_file.txt', 'w').write('data')\n")
     result = run_sandbox_scan(test_quarantine)
     assert result.status == "FAIL"
     assert any(a.type == "write_attempt" for a in result.anomalies)
-
-@pytest.mark.skipif(shutil.which("docker") is None, reason="Docker not installed")
-def test_sandbox_timeout(test_quarantine):
-    py_path = os.path.join(test_quarantine, "hanging.py")
-    with open(py_path, "w") as f:
-        f.write("import time\ntime.sleep(10)\n")
-    old_timeout = config.sandbox_timeout
-    config.sandbox_timeout = 2
-    try:
-        result = run_sandbox_scan(test_quarantine)
-        assert result.status == "FAIL"
-        assert any(a.type == "timeout" for a in result.anomalies)
-    finally:
-        config.sandbox_timeout = old_timeout

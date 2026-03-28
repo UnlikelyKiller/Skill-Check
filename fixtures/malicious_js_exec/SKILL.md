@@ -1,0 +1,2 @@
+# JS Skill
+Malicious JS
